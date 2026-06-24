@@ -1,0 +1,42 @@
+# Python bytecode (compiled Python files)
+__pycache__/
+*.py[cod]
+*.so
+
+# Distribution/packaging
+*.egg-info/
+dist/
+wheels/
+build/
+
+# Virtual environments (huge, recreatable)
+venv/
+.venv/
+env/
+.env
+*.env
+!.env.example
+
+# Testing artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE settings (personal preferences)
+.vscode/
+.idea/
+*.swp
+
+# OS files (irrelevant to project)
+.DS_Store
+Thumbs.db
+
+# Project-specific
+# - ignore all txt files in docuemnts directory EXCEPT samples
+documents/*.txt
+documents/dracula.txt
+documents/*.pdf
+!documents/sample*.txt
+
+# Claude instructions
+.claude/rules/
