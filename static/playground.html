@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+@author: Anthony Nguyen & Cyrus Anderson
+Seattle University, ARIN 5360
+@see: https://catalog.seattleu.edu/preview_course_nopop.php?catoid=55&coid=190380
+@version: 2.0.0+w26
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Playground - Prompt Engineering</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="index.html" class="nav-link">Search</a>
+        <a href="playground.html" class="nav-link active">RAG Playground</a>
+    </nav>
+    <div class="playground-container">
+        <!-- LEFT PANEL: Configuration -->
+        <div class="config-panel">
+            <h1 class="panel-title">⚙️ Configuration</h1>
+
+            <!-- Context Documents Slider -->
+            <div class="control-group">
+                <label class="control-label">Context Documents</label>
+                <div class="slider-container">
+                    <input 
+                        type="range" 
+                        id="contextDocs" 
+                        class="slider"
+                        min="1" 
+                        max="10" 
+                        value="3" 
+                        step="1"
+                    >
+                    <span class="slider-value" id="contextDocsValue">3</span>
+                </div>
+            </div>
+
+            <!-- Temperature Slider -->
+            <div class="control-group">
+                <label class="control-label">Temperature</label>
+                <div class="slider-container">
+                    <input 
+                        type="range" 
+                        id="temperature" 
+                        class="slider"
+                        min="0.0" 
+                        max="1.0" 
+                        value="0.7" 
+                        step="0.1"
+                    >
+                    <span class="slider-value" id="temperatureValue">0.7</span>
+                </div>
+            </div>
+
+            <!-- LLM Provider -->
+            <div class="control-group">
+                <label class="control-label">LLM Provider</label>
+                <select 
+                    id="llmProvider" 
+                    style="width: 100%; padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 6px; font-size: 1rem;"
+                >
+                    <option value="ollama" selected>Ollama</option>
+                    <option value="openai">OpenAI</option>
+                </select>
+            </div>
+
+            <!-- System Prompt -->
+            <div class="control-group">
+                <label class="control-label">System Prompt</label>
+                <textarea 
+                    id="systemPrompt" 
+                    class="system-prompt-textarea"
+                    placeholder="Enter system prompt..."
+                ></textarea>
+                <div class="button-group">
+                    <button onclick="resetSystemPrompt()" class="btn-secondary btn-small">
+                        Reset to Default
+                    </button>
+                    <button onclick="showPromptPreview()" class="btn-small">
+                        Preview Full Prompt
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: Question & Response -->
+        <div class="response-panel">
+            <h1 class="panel-title">💬 RAG Playground</h1>
+
+            <!-- Health Section (kept from original) -->
+            <div class="health-section">
+                <button id="healthButton" onclick="displayHealth()">Check Health</button>
+                <div id="health-status">Click to check server status</div>
+            </div>
+
+            <!-- Question Input -->
+            <div class="control-group">
+                <label class="control-label">Question</label>
+                <textarea 
+                    id="questionInput" 
+                    class="question-textarea"
+                    placeholder="Ask a question about your documents..."
+                ></textarea>
+                <button 
+                    id="generateButton" 
+                    onclick="generateAnswer()"
+                    style="margin-top: 0.75rem; width: 100%;"
+                >
+                    Generate Answer
+                </button>
+            </div>
+
+            <!-- Response Display -->
+            <div id="responseDisplay" class="response-display" style="display: none;">
+                <!-- Answer Section -->
+                <div class="answer-section">
+                    <h2 class="section-title">Answer</h2>
+                    <div id="answerText" class="answer-text"></div>
+                </div>
+
+                <!-- Metadata Row -->
+                <div class="metadata-row" id="responseMetadata"></div>
+
+                <!-- Context Documents Section -->
+                <div class="context-section">
+                    <h2 class="section-title">Context Documents Used</h2>
+                    <div id="contextDocuments"></div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                Configure your settings and ask a question to get started
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt Preview Modal -->
+    <div id="promptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Full Prompt Preview</h2>
+                <button class="modal-close" onclick="closePromptModal()">&times;</button>
+            </div>
+            <div id="promptPreviewContent" class="prompt-preview"></div>
+        </div>
+    </div>
+
+    <div id="fullPromptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Prompt Preview</h2>
+                <button class="modal-close" onclick="closeFullPromptModal()">&times;</button>
+            </div>
+            <div id="fullPromptContent" class="prompt-preview"></div>
+        </div>
+    </div>
+    
+    <script src="/playground.js"></script>
+</body>
+</html>
